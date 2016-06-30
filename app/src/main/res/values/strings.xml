@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Beer Time</string>
+    <string name="action_delete">supprimer</string>
+    <string name="action_add">ajouter</string>
+    <string name="title_activity_detail">Detail</string>
+    <string name="action_save">sauvegarder</string>
+    <string name="action_cancel">annuler</string>
+</resources>
