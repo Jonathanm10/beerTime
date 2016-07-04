@@ -89,15 +89,16 @@ public class DBBeerQuery {
         return bdd.update(TABLE_BEER, values, COL_ID + " = " + id, null);
     }
 
-    public int removeBeerID(int id) {
+    public int deleteBeerID(int idBeer) {
+
         //Suppression d'un livre de la BDD grâce à l'ID
-        return bdd.delete(TABLE_BEER, COL_ID + " = " + id, null);
+        return this.bdd.delete(TABLE_BEER, COL_ID + "=" + idBeer, null);
     }
 
     public tBeer getBeerWithId(int idBeer) {
         Cursor c = bdd.query(TABLE_BEER, new String[]
                 {COL_ID, COL_NAME, COL_TYPE, COL_ML, COL_ALCOOL, COL_RATING, COL_COMMENT},
-                COL_ID + " = \"" + idBeer + "\"", null, null, null, null);
+                COL_ID + " = " + idBeer , null, null, null, null);
         return cursorToBeer(c);
     }
 

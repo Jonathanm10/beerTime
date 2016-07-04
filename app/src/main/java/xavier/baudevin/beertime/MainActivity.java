@@ -1,7 +1,9 @@
 package xavier.baudevin.beertime;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,11 +13,17 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
+
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    public int pos;
+    public MainActivity me = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,31 +71,51 @@ public class MainActivity extends AppCompatActivity {
         //On attribut à notre listView l'adapter que l'on vient de créer
         maListViewPerso.setAdapter(mSchedule);
 
-        //Enfin on met un écouteur d'évènement sur notre listView
-        maListViewPerso.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                //on récupère la HashMap contenant les infos de notre item (titre, description, img)
-                HashMap<String, String> map = (HashMap<String, String>) maListViewPerso.getItemAtPosition(position);
-            }
-        });
-
-        maListViewPerso.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                //on récupère la HashMap contenant les infos de notre item (titre, description, img)
-                HashMap<String, String> map = (HashMap<String, String>) maListViewPerso.getItemAtPosition(position);
-                startActivity(new Intent(MainActivity.this, Detail.class).putExtra("empty", false).putExtra("idBeer", map.get("idBeer")));
-                finish();
-            }
-        });
-
         dbbeer.close();
 
+        maListViewPerso.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onItemClick(AdapterView<?> a, View v, final int position, long id) {
+
+                AlertDialog show = new AlertDialog.Builder(MainActivity.this)
+                        .setIcon(android.R.drawable.ic_menu_help)
+                        .setTitle("choix")
+                        .setMessage("que voulez vous faire ?")
+                        .setPositiveButton("modifier", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //on récupère la HashMap contenant les infos de notre item (titre, description, img)
+                                HashMap<String, String> map = (HashMap<String, String>) maListViewPerso.getItemAtPosition(pos);
+                                startActivity(new Intent(MainActivity.this, Detail.class).putExtra("empty", false).putExtra("idBeer", map.get("idBeer")));
+
+                            }
+
+                        })
+                        .setNegativeButton("supprimer", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                DBBeerQuery dbbeer = new DBBeerQuery(me);
+                                dbbeer.open();
+
+                                HashMap<String, String> map = (HashMap<String, String>) maListViewPerso.getItemAtPosition(pos);
+                                int idBeer = Integer.parseInt(map.get("idBeer"));
+                                dbbeer.deleteBeerID(idBeer);
+
+                                dbbeer.close();
+
+                                maListViewPerso.removeViewsInLayout(pos,1);
+
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -107,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             startActivity(new Intent(MainActivity.this, Detail.class).putExtra("empty", true));
-            finish();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }

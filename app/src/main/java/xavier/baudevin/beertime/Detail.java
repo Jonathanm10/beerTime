@@ -1,7 +1,5 @@
 package xavier.baudevin.beertime;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -90,10 +88,12 @@ public class Detail extends AppCompatActivity {
             }
             else {
                 this.dbbeer.updateLivre(this.idBeer, beerToSave);
-
             }
 
             this.dbbeer.close();
+
+            Intent refresh = new Intent(this, MainActivity.class);
+            startActivity(refresh);
 
             finish();
         }
