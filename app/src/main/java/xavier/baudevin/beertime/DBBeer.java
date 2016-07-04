@@ -1,9 +1,16 @@
+/**
+ * @autor:      Xavier Baudevin <xavier.bau@hotmail.fr>
+ * @date:       04/02/16
+ * @project:    BeerTime
+ * @desciption: the db settings
+ */
+
 package xavier.baudevin.beertime;
 
-        import android.content.Context;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.database.sqlite.SQLiteOpenHelper;
-        import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 public class DBBeer extends SQLiteOpenHelper {
 

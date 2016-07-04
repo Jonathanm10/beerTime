@@ -1,8 +1,12 @@
+/**
+ * @autor:      Xavier Baudevin <xavier.bau@hotmail.fr>
+ * @date:       29/01/16
+ * @project:    BeerTime
+ * @desciption: object with the data for a beer
+ */
+
 package xavier.baudevin.beertime;
 
-/**
- * Created by xavierbaudevin on 29/01/16.
- */
 public class tBeer {
     private int id;
     private String name;
